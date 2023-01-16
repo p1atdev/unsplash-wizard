@@ -42,7 +42,7 @@ export const getPhotoDetailData = async (client: Unsplash, photos: Photo[], batc
                             // wait for 5 sec
                             tty.eraseLine
                                 .cursorMove(-1000, 0)
-                                .text(`${colors.red.bold("[ERROR]")} Failed to fetch ${response.id}. Retrying...`)
+                                .text(`${colors.red.bold("[ERROR]")} Failed to fetch ${photo.id}. Retrying...`)
                             await new Promise((resolve) => setTimeout(resolve, 5000))
                             continue
                         }
