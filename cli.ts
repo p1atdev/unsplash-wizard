@@ -5,9 +5,9 @@ import { Unsplash, getPhotoData, getPhotoDetailData, Photo, PhotoDetail } from "
 
 await new Command()
     .name("unsplash-wizard")
-    .version("0.1.0")
+    .version("0.1.1")
     .description("Unsplash Images Downloader")
-    .command("photos")
+    .command("dump")
     .arguments("<query:string>")
     .description("Search for images")
     .option("-l, --limit <number:number>", "Number of images to download", {
@@ -16,14 +16,12 @@ await new Command()
     .option("-o, --output <path:string>", "Output directory", {
         default: "./unsplash",
     })
-    .option("-d, --dump <path:string>", "Dump data to file", {})
-    .option("--detail [boolean:boolean]", "Get more details about the images", {
+    .option("--detail [boolean:boolean]", "Get more details about the images. This may take a long time.", {
         default: false,
-        depends: ["dump"],
     })
     .option("-k, --key <string>", "Unsplash access key")
     .action(async (options, query) => {
-        const { limit, output, dump, key, detail } = options
+        const { limit, output, key, detail } = options
 
         const client = key ? new Unsplash("official", key) : new Unsplash()
 
@@ -34,19 +32,15 @@ await new Command()
         tty.eraseLine.cursorMove(-1000, 0).text("")
         log.info(data.length, "images found!")
 
-        if (dump) {
-            if (detail) {
-                log.info("Getting detailed data")
-                const detailed = await getPhotoDetailData(client, data)
-                tty.eraseLine.cursorMove(-1000, 0).text("")
-                log.info("Dumping detailed data to", dump)
-                await Deno.writeTextFile(dump, JSON.stringify(detailed, null, 4))
-            } else {
-                log.info("Dumping data to", dump)
-                await Deno.writeTextFile(dump, JSON.stringify(data, null, 4))
-            }
+        if (detail) {
+            log.info("Getting detailed data")
+            const detailed = await getPhotoDetailData(client, data)
+            tty.eraseLine.cursorMove(-1000, 0).text("")
+            log.info("Dumping detailed data to", output)
+            await Deno.writeTextFile(output, JSON.stringify(detailed, null, 4))
         } else {
-            // TODO: download images
+            log.info("Dumping data to", output)
+            await Deno.writeTextFile(output, JSON.stringify(data, null, 4))
         }
 
         log.success("Done")
@@ -70,22 +64,22 @@ await new Command()
     .option("--likes <number:number>", "Minimum likes", {
         default: 10,
     })
-    .option("--color [boolean:boolean]", "Use color code in caption", {
+    .option("--color [boolean:boolean]", "Add color code to captions", {
         default: false,
     })
-    .option("--inaccurateDescription [boolean:boolean]", "Add caption to image", {
+    .option("--inaccurateDescription [boolean:boolean]", "Add VERY inaccurate captions. Not recommended", {
         default: false,
     })
-    .option("--location [boolean:boolean]", "Add location to caption", {
+    .option("--location [boolean:boolean]", "Add location information of the photo shoot to captions", {
         default: true,
     })
-    .option("--exif [boolean:boolean]", "Add exif to caption", {
+    .option("--exif [boolean:boolean]", "Add camera information to captions", {
         default: true,
     })
-    .option("--relatedTags [boolean:boolean]", "Add related tags to caption", {
+    .option("--relatedTags [boolean:boolean]", "Add related tags to captions", {
         default: false,
     })
-    .option("--batch <batch:number>", "Batch size", {
+    .option("--batch <batch:number>", "Batch size.(Be polite!) ", {
         default: 100,
     })
     .action(async (options, path) => {
@@ -155,6 +149,7 @@ await new Command()
                             })
                         }
 
+                        tty.eraseLine.cursorMove(-1000, 0).text("")
                         log.success("Saved captions")
                     })()
                 )
@@ -181,6 +176,7 @@ await new Command()
                             })
                         }
 
+                        tty.eraseLine.cursorMove(-1000, 0).text("")
                         log.success("Saved captions")
                     })()
                 )
@@ -189,6 +185,7 @@ await new Command()
 
         await Promise.all(tasks)
 
+        tty.eraseLine.cursorMove(-1000, 0).text("")
         log.success("All done")
     })
 

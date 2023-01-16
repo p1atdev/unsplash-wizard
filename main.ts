@@ -49,11 +49,11 @@ export const getPhotoDetailData = async (client: Unsplash, photos: Photo[], batc
                         const response = await client.photos.get(photo.id)
 
                         if (typeof response.id !== "string" || response === undefined) {
-                            // wait for 5 sec
+                            // wait for 3 sec
                             tty.eraseLine
                                 .cursorMove(-1000, 0)
                                 .text(`${colors.red.bold("[ERROR]")} Failed to fetch ${photo.id}. Retrying...`)
-                            await new Promise((resolve) => setTimeout(resolve, 5000))
+                            await new Promise((resolve) => setTimeout(resolve, 3000))
                             continue
                         }
 
@@ -224,12 +224,18 @@ export const savePhotoDetailCaption = async ({
         captions.push(cameraTags.join(" "))
     }
 
+    const tags: string[] = []
+
     if (photo.tags.length > 0) {
-        captions.push(...photo.tags)
+        tags.push(...photo.tags)
     }
 
     if (relatedTags && photo.related_tags.length > 0) {
-        captions.push(...photo.related_tags)
+        tags.push(...photo.related_tags)
+    }
+
+    if (tags.length > 0) {
+        captions.push(...new Set(tags))
     }
 
     if (typeof photo.color === "string" && color) {

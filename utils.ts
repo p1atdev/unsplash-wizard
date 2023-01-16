@@ -118,13 +118,25 @@ export const getPhotoTags = (tag: Tag) => {
 }
 
 export const downloadImage = async (url: string | URL, path: string) => {
-    const response = await fetch(url)
+    while (true) {
+        try {
+            const response = await fetch(url)
 
-    const buffer = await response.arrayBuffer()
+            const buffer = await response.arrayBuffer()
 
-    await Deno.writeFile(path, new Uint8Array(buffer), {
-        create: true,
-    })
+            await Deno.writeFile(path, new Uint8Array(buffer), {
+                create: true,
+            })
+
+            return
+        } catch {
+            // wait 3 second and try again
+            tty.eraseLine
+                .cursorMove(-1000, 0)
+                .text(`${colors.red.bold("[ERROR]")} Failed to download ${url}. Retrying...`)
+            await new Promise((resolve) => setTimeout(resolve, 3000))
+        }
+    }
 }
 
 export const saveTxtFile = async (path: string, data: string) => {
