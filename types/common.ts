@@ -15,6 +15,8 @@ export type Color =
 
 export type Language = "en"
 
+export type PhotoSize = "raw" | "full" | "regular" | "small" | "thumb"
+
 export interface Links {
     self: string
     html: string

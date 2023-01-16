@@ -116,3 +116,19 @@ export const getPhotoTags = (tag: Tag) => {
         }
     }
 }
+
+export const downloadImage = async (url: string | URL, path: string) => {
+    const response = await fetch(url)
+
+    const buffer = await response.arrayBuffer()
+
+    await Deno.writeFile(path, new Uint8Array(buffer), {
+        create: true,
+    })
+}
+
+export const saveTxtFile = async (path: string, data: string) => {
+    await Deno.writeTextFile(path, data, {
+        create: true,
+    })
+}
