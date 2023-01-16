@@ -43,10 +43,9 @@ deno task start download ./data.json -o ./output
   Options:
 
     -h, --help               - Show this help.
-
-    -l, --limit   <number>   - Number of images to download       (Default: 30)
-    -o, --output  <path>     - Output directory                   (Default: "./unsplash")
-    --detail      [boolean]  - Get more details about the images  (Default: false)
+    -l, --limit   <number>   - Number of images to download                                   (Default: 30)
+    -o, --output  <path>     - Output directory                                               (Default: "./unsplash")
+    --detail      [boolean]  - Get more details about the images. This may take a long time.  (Default: false)       
     -k, --key     <string>   - Unsplash access key
 ```
 
@@ -56,16 +55,15 @@ deno task start download ./data.json -o ./output
   Options:
 
     -h, --help                          - Show this help.
-
-    -o, --output             <path>     - Output directory             (required)
-    --detail                 [boolean]  - Download detailed images     (Default: true)
-    --size                   <string>   - Image size                   (Default: "small")
-    -c, --caption                       - Save image captions          (Default: true)
-    --likes                  <number>   - Minimum likes                (Default: 10)
-    --color                  [boolean]  - Use color code in caption    (Default: false)
-    --inaccurateDescription  [boolean]  - Add caption to image         (Default: false)
-    --location               [boolean]  - Add location to caption      (Default: true)
-    --exif                   [boolean]  - Add exif to caption          (Default: true)
-    --relatedTags            [boolean]  - Add related tags to caption  (Default: false)
-    --batch                  <batch>    - Batch size                   (Default: 100)
+    -o, --output             <path>     - Output directory                                         (required)        
+    --detail                 [boolean]  - Download detailed images                                 (Default: true)   
+    --size                   <string>   - Image size                                               (Default: "small")
+    -c, --caption                       - Save image captions                                      (Default: true)   
+    --likes                  <number>   - Minimum likes                                            (Default: 10)     
+    --color                  [boolean]  - Add color code to captions                               (Default: false)  
+    --inaccurateDescription  [boolean]  - Add VERY inaccurate captions. Not recommended            (Default: false)  
+    --location               [boolean]  - Add location information of the photo shoot to captions  (Default: true)   
+    --exif                   [boolean]  - Add camera information to captions                       (Default: true)   
+    --relatedTags            [boolean]  - Add related tags to captions                             (Default: false)  
+    --batch                  <batch>    - Batch size.(Be polite!)                                  (Default: 100) 
 ```

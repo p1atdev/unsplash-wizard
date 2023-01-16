@@ -79,7 +79,7 @@ await new Command()
     .option("--relatedTags [boolean:boolean]", "Add related tags to captions", {
         default: false,
     })
-    .option("--batch <batch:number>", "Batch size.(Be polite!) ", {
+    .option("--batch <batch:number>", "Batch size.(Be polite!)", {
         default: 100,
     })
     .action(async (options, path) => {
