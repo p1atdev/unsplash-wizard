@@ -1,4 +1,4 @@
-import { Color, Language, ResultLinks, TagsPreview, TopicSubmissions, Urls } from "../../common.ts"
+import { Color, Language, Links, Tag, TopicSubmissions, Urls } from "../../common.ts"
 import { User } from "../../user.ts"
 
 export interface SearchPhotosParams {
@@ -30,7 +30,7 @@ export interface SearchPhotosResponseResult {
     description: null | string
     alt_description: null | string
     urls: Urls
-    links: ResultLinks
+    links: Links
     likes: number
     liked_by_user: boolean
     current_user_collections: any[]
@@ -38,5 +38,5 @@ export interface SearchPhotosResponseResult {
     topic_submissions: TopicSubmissions
     premium: boolean
     user: User
-    tags_preview: TagsPreview[]
+    tags_preview: Tag[]
 }

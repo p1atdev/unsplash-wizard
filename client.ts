@@ -1,5 +1,4 @@
-import { SearchPhotosResponse } from "./types/api/search/photos.ts"
-import { SearchPhotosParams } from "./types/api/search/photos.ts"
+import { SearchPhotosParams, SearchPhotosResponse, PhotoResponse } from "./types/mod.ts"
 
 const unofficialHost = "https://unsplash.com/napi"
 const host = "https://api.unsplash.com"
@@ -23,6 +22,14 @@ export class Unsplash {
                     url.searchParams.append(key, value.toString())
                 }
             })
+            const response = await fetch(url, {})
+            return await response.json()
+        },
+    }
+
+    photos = {
+        get: async (id: string): Promise<PhotoResponse> => {
+            const url = new URL(this.host.pathname + `/photos/${id}`, this.host)
             const response = await fetch(url, {})
             return await response.json()
         },

@@ -15,14 +15,14 @@ export type Color =
 
 export type Language = "en"
 
-export interface ResultLinks {
+export interface Links {
     self: string
     html: string
     download: string
     download_location: string
 }
 
-export interface TagsPreview {
+export interface Tag {
     type: "landing_page" | "search"
     title: string
     source?: Source
@@ -61,7 +61,7 @@ export interface CoverPhoto {
     description: null | string
     alt_description: null | string
     urls: Urls
-    links: ResultLinks
+    links: Links
     likes: number
     liked_by_user: boolean
     current_user_collections: any[]
@@ -100,4 +100,37 @@ export interface ResultTopicSubmissions {
     "levitating-objects"?: Experimental
     experimental?: Experimental
     "fashion-beauty"?: Experimental
+}
+
+export interface Exif {
+    make: string
+    model: string
+    name: string
+    exposure_time: string
+    aperture: string
+    focal_length: string
+    iso: number
+}
+
+export interface PhotoResponseLinks {
+    self: string
+    html: string
+    download: string
+    download_location: string
+}
+
+export interface Location {
+    name: string
+    city: string
+    country: string
+    position: Position
+}
+
+export interface Position {
+    latitude: number
+    longitude: number
+}
+
+export interface Meta {
+    index: boolean
 }
