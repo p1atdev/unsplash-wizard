@@ -5,7 +5,7 @@ import { Unsplash, getPhotoData, getPhotoDetailData, Photo, PhotoDetail } from "
 
 await new Command()
     .name("unsplash-wizard")
-    .version("0.1.1")
+    .version("0.1.3")
     .description("Unsplash Images Downloader")
     .command("dump")
     .arguments("<query:string>")
@@ -56,7 +56,7 @@ await new Command()
         default: true,
     })
     .option("--size <string>", "Image size", {
-        default: "small",
+        default: "regular",
     })
     .option("-c, --caption", "Save image captions", {
         default: true,
