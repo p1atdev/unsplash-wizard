@@ -49,11 +49,11 @@ export const getPhotoDetailData = async (client: Unsplash, photos: Photo[], batc
                         const response = await client.photos.get(photo.id)
 
                         if (typeof response.id !== "string" || response === undefined) {
-                            // wait for 3 sec
+                            // wait for 10 sec
                             tty.eraseLine
                                 .cursorMove(-1000, 0)
                                 .text(`${colors.red.bold("[ERROR]")} Failed to fetch ${photo.id}. Retrying...`)
-                            await new Promise((resolve) => setTimeout(resolve, 3000))
+                            await new Promise((resolve) => setTimeout(resolve, 10000))
                             continue
                         }
 
@@ -208,25 +208,25 @@ export const savePhotoDetailCaption = async ({
     if (exif) {
         const cameraTags: string[] = []
         if (typeof photo.exif?.make === "string") {
-            cameraTags.push(...photo.exif.make.split(",").map((s) => s.trim()))
+            cameraTags.push(...photo.exif.make.split(" ").map((s) => s.trim()))
         }
         if (typeof photo.exif?.model === "string") {
-            cameraTags.push(...photo.exif.model.split(",").map((s) => s.trim()))
+            cameraTags.push(...photo.exif.model.split(" ").map((s) => s.trim()))
         }
         if (typeof photo.exif?.exposure_time === "string") {
-            cameraTags.push(...`${photo.exif.exposure_time}sec`.split(",").map((s) => s.trim()))
+            cameraTags.push(...`${photo.exif.exposure_time}sec`.split(" ").map((s) => s.trim()))
         }
         if (typeof photo.exif?.aperture === "string") {
-            cameraTags.push(...`f/${photo.exif.aperture}`.split(",").map((s) => s.trim()))
+            cameraTags.push(...`f/${photo.exif.aperture}`.split(" ").map((s) => s.trim()))
         }
         if (typeof photo.exif?.focal_length === "string") {
-            cameraTags.push(...`${photo.exif.focal_length}mm`.split(",").map((s) => s.trim()))
+            cameraTags.push(...`${photo.exif.focal_length}mm`.split(" ").map((s) => s.trim()))
         }
         if (typeof photo.exif?.iso === "number") {
-            cameraTags.push(...`ISO ${photo.exif.iso}`.split(",").map((s) => s.trim()))
+            cameraTags.push(...`ISO ${photo.exif.iso}`.split(" ").map((s) => s.trim()))
         }
         if (cameraTags.length > 0) {
-            captions.push(`shot on ${Array(new Set(cameraTags)).join(" ")}`)
+            captions.push(`shot on ${new Array(new Set(cameraTags)).join(" ")}`)
         }
     }
 

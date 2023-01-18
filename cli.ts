@@ -19,9 +19,12 @@ await new Command()
     .option("--detail [boolean:boolean]", "Get more details about the images. This may take a long time.", {
         default: false,
     })
+    .option("--batch <number:number>", "Batch size for getting detailed data", {
+        default: 100,
+    })
     .option("-k, --key <string>", "Unsplash access key")
     .action(async (options, query) => {
-        const { limit, output, key, detail } = options
+        const { limit, output, key, detail, batch } = options
 
         const client = key ? new Unsplash("official", key) : new Unsplash()
 
@@ -34,7 +37,7 @@ await new Command()
 
         if (detail) {
             log.info("Getting detailed data")
-            const detailed = await getPhotoDetailData(client, data)
+            const detailed = await getPhotoDetailData(client, data, batch)
             tty.eraseLine.cursorMove(-1000, 0).text("")
             log.info("Dumping detailed data to", output)
             await Deno.writeTextFile(output, JSON.stringify(detailed, null, 4))
