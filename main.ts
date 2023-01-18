@@ -208,25 +208,25 @@ export const savePhotoDetailCaption = async ({
     if (exif) {
         const cameraTags: string[] = []
         if (typeof photo.exif?.make === "string") {
-            cameraTags.push(photo.exif.make)
+            cameraTags.push(...photo.exif.make.split(",").map((s) => s.trim()))
         }
         if (typeof photo.exif?.model === "string") {
-            cameraTags.push(photo.exif.model)
+            cameraTags.push(...photo.exif.model.split(",").map((s) => s.trim()))
         }
         if (typeof photo.exif?.exposure_time === "string") {
-            cameraTags.push(`${photo.exif.exposure_time}sec`)
+            cameraTags.push(...`${photo.exif.exposure_time}sec`.split(",").map((s) => s.trim()))
         }
         if (typeof photo.exif?.aperture === "string") {
-            cameraTags.push(`f/${photo.exif.aperture}`)
+            cameraTags.push(...`f/${photo.exif.aperture}`.split(",").map((s) => s.trim()))
         }
         if (typeof photo.exif?.focal_length === "string") {
-            cameraTags.push(`${photo.exif.focal_length}mm`)
+            cameraTags.push(...`${photo.exif.focal_length}mm`.split(",").map((s) => s.trim()))
         }
         if (typeof photo.exif?.iso === "number") {
-            cameraTags.push(`ISO ${photo.exif.iso}`)
+            cameraTags.push(...`ISO ${photo.exif.iso}`.split(",").map((s) => s.trim()))
         }
         if (cameraTags.length > 0) {
-            captions.push(`shot on ${cameraTags.join(" ")}`)
+            captions.push(`shot on ${Array(new Set(cameraTags)).join(" ")}`)
         }
     }
 
