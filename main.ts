@@ -190,19 +190,23 @@ export const savePhotoDetailCaption = async ({
     }
 
     if (location) {
+        const locations: string[] = []
         if (typeof photo.location?.name === "string") {
-            captions.push(photo.location.name)
+            locations.push(...photo.location.name.split(",").map((s) => s.trim()))
         }
         if (typeof photo.location?.city === "string") {
-            captions.push(photo.location.city)
+            locations.push(...photo.location.city.split(",").map((s) => s.trim()))
         }
         if (typeof photo.location?.country === "string") {
-            captions.push(photo.location.country)
+            locations.push(...photo.location.country.split(",").map((s) => s.trim()))
+        }
+        if (locations.length > 0) {
+            captions.push(...new Set(locations))
         }
     }
 
     if (exif) {
-        const cameraTags: string[] = ["shot on"]
+        const cameraTags: string[] = []
         if (typeof photo.exif?.make === "string") {
             cameraTags.push(photo.exif.make)
         }
@@ -221,7 +225,9 @@ export const savePhotoDetailCaption = async ({
         if (typeof photo.exif?.iso === "number") {
             cameraTags.push(`ISO ${photo.exif.iso}`)
         }
-        captions.push(cameraTags.join(" "))
+        if (cameraTags.length > 0) {
+            captions.push(`shot on ${cameraTags.join(" ")}`)
+        }
     }
 
     const tags: string[] = []
