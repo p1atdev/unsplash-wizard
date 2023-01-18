@@ -226,7 +226,7 @@ export const savePhotoDetailCaption = async ({
             cameraTags.push(...`ISO ${photo.exif.iso}`.split(" ").map((s) => s.trim()))
         }
         if (cameraTags.length > 0) {
-            captions.push(`shot on ${new Array(new Set(cameraTags)).join(" ")}`)
+            captions.push(`shot on ${Array.from(new Set(cameraTags)).join(" ")}`)
         }
     }
 
